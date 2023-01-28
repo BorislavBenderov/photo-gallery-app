@@ -9,12 +9,12 @@ import { auth } from "../../firebaseConfig";
 import { useNavigate } from "react-router-dom";
 
 export const Register = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [repeatPassword, setRepeatPassword] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [repeatPassword, setRepeatPassword] = useState<string>("");
   const navigate = useNavigate();
 
-  const onLogin = (e) => {
+  const onRegister = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (email === "" || password === "" || repeatPassword === "") {
@@ -44,7 +44,7 @@ export const Register = () => {
         <h1 className="text-center mb-[30px] text-3xl font-extrabold">
           Photo Gallery
         </h1>
-        <form className="flex flex-col" onSubmit={onLogin}>
+        <form className="flex flex-col" onSubmit={onRegister}>
           <label htmlFor="email" />
           <input
             className="mb-[10px] py-[5px] px-[10px] rounded-lg border-[#918f8f76] border-[1px] border-solid"
