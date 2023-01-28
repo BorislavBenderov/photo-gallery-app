@@ -1,13 +1,50 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import {
+  setPersistence,
+  createUserWithEmailAndPassword,
+  browserLocalPersistence,
+} from "firebase/auth";
+import { auth } from "../../firebaseConfig";
+import { useNavigate } from "react-router-dom";
 
 export const Register = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [repeatPassword, setRepeatPassword] = useState("");
+  const navigate = useNavigate();
+
+  const onLogin = (e) => {
+    e.preventDefault();
+
+    if (email === "" || password === "" || repeatPassword === "") {
+      alert("Please fill all fields");
+      return;
+    }
+
+    if (password !== repeatPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    setPersistence(auth, browserLocalPersistence).then(() => {
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          navigate("/");
+        })
+        .catch((err) => {
+          alert(err.message);
+        });
+    });
+  };
+
   return (
     <div className="w-[335px] my-[50px] mx-auto">
       <div className="bg-white pt-[10px] pr-[40px] pb-[100px] pl-[40px] mb-[10px] rounded-lg border-[1px] border-[#918f8f76] border-solid">
         <h1 className="text-center mb-[30px] text-3xl font-extrabold">
           Photo Gallery
         </h1>
-        <form className="flex flex-col">
+        <form className="flex flex-col" onSubmit={onLogin}>
           <label htmlFor="email" />
           <input
             className="mb-[10px] py-[5px] px-[10px] rounded-lg border-[#918f8f76] border-[1px] border-solid"
@@ -15,6 +52,8 @@ export const Register = () => {
             placeholder="Email"
             id="email"
             name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <label htmlFor="password" />
           <input
@@ -23,6 +62,8 @@ export const Register = () => {
             placeholder="Password"
             id="password"
             name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <input
             className="mb-[10px] py-[5px] px-[10px] rounded-lg border-[#918f8f76] border-[1px] border-solid"
@@ -30,6 +71,8 @@ export const Register = () => {
             placeholder="Repeat Password"
             id="repeatPassword"
             name="repeatPassword"
+            value={repeatPassword}
+            onChange={(e) => setRepeatPassword(e.target.value)}
           />
           <button
             className="bg-[#1119ffee] text-white font-semibold mt-5 rounded-lg py-[5px] px-[10px]"
