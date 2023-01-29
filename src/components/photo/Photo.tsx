@@ -12,8 +12,8 @@ type Props = {
 
 export const Photo = ({ photo }: Props) => {
   return (
-      <Link to={photo.image} key={photo.id}>
-        <img src={photo.image} className=" w-[190px] h-[200px]" alt="image" />
-      </Link>
+    <Link to={`/photos/${photo.id}`}>
+      <img src={photo.image} className=" w-[190px] h-[200px]" alt="image" />
+    </Link>
   );
 };
