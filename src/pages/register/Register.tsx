@@ -1,18 +1,20 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   setPersistence,
   createUserWithEmailAndPassword,
-  browserLocalPersistence,
+  browserLocalPersistence
 } from "firebase/auth";
 import { auth } from "../../firebaseConfig";
-import { useNavigate } from "react-router-dom";
+import { login } from "../../features/user/userSlice";
+import { useAppDispatch } from "../../app/store";
 
 export const Register = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [repeatPassword, setRepeatPassword] = useState<string>("");
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const onRegister = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -29,7 +31,13 @@ export const Register = () => {
 
     setPersistence(auth, browserLocalPersistence).then(() => {
       createUserWithEmailAndPassword(auth, email, password)
-        .then(() => {
+        .then((userAuth) => {
+          dispatch(
+            login({
+              email: userAuth.user.email,
+              uid: userAuth.user.uid,
+            })
+          );
           navigate("/");
         })
         .catch((err) => {
