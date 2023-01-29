@@ -4,14 +4,16 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../app/store";
+import { login } from "../../features/user/userSlice";
 import { auth } from "../../firebaseConfig";
-import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const onLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -23,7 +25,13 @@ export const Login = () => {
 
     setPersistence(auth, browserLocalPersistence).then(() => {
       signInWithEmailAndPassword(auth, email, password)
-        .then(() => {
+        .then((userAuth) => {
+          dispatch(
+            login({
+              email: userAuth.user.email,
+              uid: userAuth.user.uid,
+            })
+          );
           navigate("/");
         })
         .catch((err) => {
