@@ -12,6 +12,7 @@ import { auth } from "../../firebaseConfig";
 export const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -22,7 +23,7 @@ export const Login = () => {
       alert("Please fill all fields");
       return;
     }
-
+    setLoading(true);
     setPersistence(auth, browserLocalPersistence).then(() => {
       signInWithEmailAndPassword(auth, email, password)
         .then((userAuth) => {
@@ -33,9 +34,11 @@ export const Login = () => {
             })
           );
           navigate("/");
+          setLoading(false);
         })
         .catch((err) => {
           alert(err.message);
+          setLoading(false);
         });
     });
   };
@@ -71,7 +74,7 @@ export const Login = () => {
             className="bg-[#1119ffee] text-white font-semibold mt-5 rounded-lg py-[5px] px-[10px]"
             type="submit"
           >
-            Log In
+            {loading ? "Loading..." : "Log In"}
           </button>
           <p className="errors"></p>
         </form>
