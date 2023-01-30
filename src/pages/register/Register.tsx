@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   setPersistence,
   createUserWithEmailAndPassword,
-  browserLocalPersistence
+  browserLocalPersistence,
 } from "firebase/auth";
 import { auth } from "../../firebaseConfig";
 import { login } from "../../features/user/userSlice";
@@ -13,6 +13,7 @@ export const Register = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [repeatPassword, setRepeatPassword] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -28,7 +29,8 @@ export const Register = () => {
       alert("Passwords do not match");
       return;
     }
-
+    
+    setLoading(true);
     setPersistence(auth, browserLocalPersistence).then(() => {
       createUserWithEmailAndPassword(auth, email, password)
         .then((userAuth) => {
@@ -39,9 +41,11 @@ export const Register = () => {
             })
           );
           navigate("/");
+          setLoading(false);
         })
         .catch((err) => {
           alert(err.message);
+          setLoading(false);
         });
     });
   };
