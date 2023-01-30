@@ -12,7 +12,7 @@ import { auth } from "../../firebaseConfig";
 export const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -23,6 +23,7 @@ export const Login = () => {
       alert("Please fill all fields");
       return;
     }
+    
     setLoading(true);
     setPersistence(auth, browserLocalPersistence).then(() => {
       signInWithEmailAndPassword(auth, email, password)
