@@ -14,6 +14,7 @@ export const Register = () => {
   const [password, setPassword] = useState<string>("");
   const [repeatPassword, setRepeatPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -21,12 +22,12 @@ export const Register = () => {
     e.preventDefault();
 
     if (email === "" || password === "" || repeatPassword === "") {
-      alert("Please fill all fields");
+      setError("Please fill all fields");
       return;
     }
 
     if (password !== repeatPassword) {
-      alert("Passwords do not match");
+      setError("Passwords do not match");
       return;
     }
     
@@ -44,7 +45,7 @@ export const Register = () => {
           setLoading(false);
         })
         .catch((err) => {
-          alert(err.message);
+          setError(err.message);
           setLoading(false);
         });
     });
@@ -92,7 +93,7 @@ export const Register = () => {
           >
             Register
           </button>
-          <p className="errors"></p>
+          <p className="text-[red] mt-5 text-center">{error}</p>
         </form>
       </div>
       <div className="flex justify-evenly items-center bg-white text-center rounded-lg border-[#918f8f76] border-[1px] py-[5px] px-[0]">
