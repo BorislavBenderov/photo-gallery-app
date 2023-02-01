@@ -13,6 +13,7 @@ export const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -20,7 +21,7 @@ export const Login = () => {
     e.preventDefault();
 
     if (email === "" || password === "") {
-      alert("Please fill all fields");
+      setError("Please fill all fields");
       return;
     }
     
@@ -38,14 +39,14 @@ export const Login = () => {
           setLoading(false);
         })
         .catch((err) => {
-          alert(err.message);
+          setError(err.message);
           setLoading(false);
         });
     });
   };
 
   return (
-    <div className="w-[335px] my-[50px] mx-auto">
+    <div className="w-[335px] my-[50px] mx-auto text-center">
       <div className="bg-white pt-[10px] pr-[40px] pb-[100px] pl-[40px] mb-[10px] rounded-lg border-[1px] border-[#918f8f76] border-solid">
         <h1 className="text-center mb-[30px] text-3xl font-extrabold">
           Photo Gallery
@@ -77,7 +78,7 @@ export const Login = () => {
           >
             {loading ? "Loading..." : "Log In"}
           </button>
-          <p className="errors"></p>
+          <p className="text-[red] mt-5">{error}</p>
         </form>
       </div>
       <div className="flex justify-evenly items-center bg-white text-center rounded-lg border-[#918f8f76] border-[1px] py-[5px] px-[0]">
