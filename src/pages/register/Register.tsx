@@ -91,7 +91,7 @@ export const Register = () => {
             className="bg-[#1119ffee] text-white font-semibold mt-5 rounded-lg py-[5px] px-[10px]"
             type="submit"
           >
-            Register
+            {loading ? 'Loading...': 'Register'}
           </button>
           <p className="text-[red] mt-5 text-center">{error}</p>
         </form>
