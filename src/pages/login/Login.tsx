@@ -46,7 +46,7 @@ export const Login = () => {
   };
 
   return (
-    <div className="w-[335px] my-[50px] mx-auto text-center">
+    <div className="w-[335px] my-[50px] mx-auto">
       <div className="bg-white pt-[10px] pr-[40px] pb-[100px] pl-[40px] mb-[10px] rounded-lg border-[1px] border-[#918f8f76] border-solid">
         <h1 className="text-center mb-[30px] text-3xl font-extrabold">
           Photo Gallery
@@ -78,7 +78,7 @@ export const Login = () => {
           >
             {loading ? "Loading..." : "Log In"}
           </button>
-          <p className="text-[red] mt-5">{error}</p>
+          <p className="text-[red] mt-5 text-center">{error}</p>
         </form>
       </div>
       <div className="flex justify-evenly items-center bg-white text-center rounded-lg border-[#918f8f76] border-[1px] py-[5px] px-[0]">
