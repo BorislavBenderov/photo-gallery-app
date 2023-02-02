@@ -1,5 +1,5 @@
 import { Nav } from "../../components/nav/Nav";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   collection,
   DocumentData,
@@ -17,6 +17,7 @@ export const Photos = () => {
   const { user } = useAppSelector((store) => store.user);
   const { photos } = useAppSelector((store) => store.photo);
   const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const q = query(
@@ -34,6 +35,7 @@ export const Photos = () => {
             })
           )
         );
+        setLoading(true);
       }
     );
 
@@ -48,9 +50,9 @@ export const Photos = () => {
         <Nav />
       </div>
       <div className="flex flex-wrap gap-4">
-        {photos.map((photo) => (
-          <Photo key={photo.id} photo={photo} />
-        ))}
+        {!loading
+          ? "Loading..."
+          : photos.map((photo) => <Photo key={photo.id} photo={photo} />)}
       </div>
     </div>
   );
