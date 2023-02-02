@@ -4,7 +4,7 @@ import {
   onSnapshot,
   QuerySnapshot,
 } from "firebase/firestore";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/store";
 import { DeletePhoto } from "../../components/delete-photo/DeletePhoto";
@@ -15,10 +15,12 @@ export const PhotoPage = () => {
   const { photoId } = useParams();
   const dispatch = useAppDispatch();
   const { currentPhoto } = useAppSelector((store) => store.photo);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(doc(db, "photos", photoId), (snapshot) => {
       dispatch(setCurrentPhoto({ ...snapshot.data(), id: snapshot.id }));
+      setLoading(true);
     });
 
     return () => {
@@ -36,11 +38,15 @@ export const PhotoPage = () => {
           <DeletePhoto photoId={photoId} />
         </li>
       </ul>
-      <img
-        className="sm:w-[500px] w-[300px] mx-auto my-[100px]"
-        src={currentPhoto?.image}
-        alt=""
-      />
+      {!loading ? (
+        <p className="text-center mt-[200px]">Loading...</p>
+      ) : (
+        <img
+          className="sm:w-[500px] w-[300px] mx-auto my-[100px]"
+          src={currentPhoto?.image}
+          alt=""
+        />
+      )}
     </div>
   );
 };
