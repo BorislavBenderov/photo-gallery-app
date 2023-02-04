@@ -6,6 +6,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { login, logout } from "./features/user/userSlice";
 import { auth } from "./firebaseConfig";
 import { ProtectedRoutes } from "./components/protected-routes/ProtectedRoutes";
+import { Footer } from "./components/footer/Footer";
 
 function App() {
   const dispatch = useDispatch();
@@ -39,6 +40,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
+      <Footer />
     </div>
   );
 }
