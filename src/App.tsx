@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { login, logout } from "./features/user/userSlice";
 import { auth } from "./firebaseConfig";
+import { ProtectedRoutes } from "./components/protected-routes/ProtectedRoutes";
 
 function App() {
   const dispatch = useDispatch();
@@ -31,10 +32,12 @@ function App() {
   return (
     <div className="max-w-7xl px-[20px] mx-auto">
       <Routes>
-        <Route path="/" element={<Photos />} />
+        <Route element={<ProtectedRoutes />}>
+          <Route path="/" element={<Photos />} />
+          <Route path="/photos/:photoId" element={<PhotoPage />} />
+        </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/photos/:photoId" element={<PhotoPage />} />
       </Routes>
     </div>
   );
