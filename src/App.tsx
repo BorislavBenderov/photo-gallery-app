@@ -7,6 +7,7 @@ import { login, logout } from "./features/user/userSlice";
 import { auth } from "./firebaseConfig";
 import { ProtectedRoutes } from "./components/protected-routes/ProtectedRoutes";
 import { Footer } from "./components/footer/Footer";
+import { NotFound } from "./pages/not-found/NotFound";
 
 function App() {
   const dispatch = useDispatch();
@@ -33,6 +34,7 @@ function App() {
   return (
     <div className="max-w-7xl px-[20px] mx-auto">
       <Routes>
+        <Route path="*" element={<NotFound />} />
         <Route element={<ProtectedRoutes />}>
           <Route path="/" element={<Photos />} />
           <Route path="/photos/:photoId" element={<PhotoPage />} />
