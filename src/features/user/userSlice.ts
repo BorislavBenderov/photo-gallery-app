@@ -6,11 +6,11 @@ export interface User {
 }
 
 interface UserState {
-  user: User | null;
+  user: User | null | [];
 }
 
 const initialState: UserState = {
-  user: null,
+  user: [],
 };
 
 export const userSlice = createSlice({
